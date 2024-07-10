@@ -69,29 +69,12 @@
 import {define} from "./_observablehq/client.js";
 import {registerFile} from "./_observablehq/stdlib.js";
 
-registerFile("./data/pr.csv", {"name":"./data/pr.csv","mimeType":"text/csv","path":"./_file/data/pr.ad4eb427.csv","lastModified":1720511553267});
+registerFile("./data/pr.csv", {"name":"./data/pr.csv","mimeType":"text/csv","path":"./_file/data/pr.535be62b.csv","lastModified":1720583307846});
 
 define({id: "fcb35a65", inputs: ["FileAttachment"], outputs: ["bar","pr"], body: async (FileAttachment) => {
 const {bar} = await import("./_import/components/bar.a010c0a3.js");
 const pr = FileAttachment("./data/pr.csv").csv({ typed: true });
 return {bar,pr};
-}});
-
-define({id: "aae03d5a", inputs: ["view","Inputs"], outputs: ["ago"], body: (view,Inputs) => {
-const ago = view(
-  Inputs.radio(["1个月", "3个月", "半年", "1年"], {
-    label: "时间范围",
-    value: "1年",
-  })
-);
-return {ago};
-}});
-
-define({id: "91c66a94", inputs: ["view","Inputs"], outputs: ["repo"], body: (view,Inputs) => {
-const repo = view(
-  Inputs.radio(["全部", "G2", "G6", "L7"], { label: "技术栈", value: "全部" })
-);
-return {repo};
 }});
 
 define({id: "b2a3a693", inputs: ["ago","pr","repo"], outputs: ["monthAgo","map","startDate","isContributor","selected","contributors","PRs","allPRs","ratio"], body: (ago,pr,repo) => {
@@ -128,6 +111,23 @@ const ratio = ((PRs / allPRs) * 100).toFixed(0);
 return {monthAgo,map,startDate,isContributor,selected,contributors,PRs,allPRs,ratio};
 }});
 
+define({id: "aae03d5a", inputs: ["view","Inputs"], outputs: ["ago"], body: (view,Inputs) => {
+const ago = view(
+  Inputs.radio(["1个月", "3个月", "半年", "1年"], {
+    label: "时间范围",
+    value: "1年",
+  })
+);
+return {ago};
+}});
+
+define({id: "91c66a94", inputs: ["view","Inputs"], outputs: ["repo"], body: (view,Inputs) => {
+const repo = view(
+  Inputs.radio(["全部", "G2", "G6", "L7"], { label: "技术栈", value: "全部" })
+);
+return {repo};
+}});
+
 define({id: "d415bfec", mode: "inline", inputs: ["contributors","display"], body: async (contributors,display) => {
 display(await(
 contributors
@@ -161,11 +161,11 @@ resize((width) => bar(selected, {width}))
 </script>
 <div id="observablehq-center">
 <main id="observablehq-main" class="observablehq">
-<h1>AntV OSCP</h1>
 <div class="observablehq observablehq--block"><!--:fcb35a65:--></div>
+<div class="observablehq observablehq--block"><!--:b2a3a693:--></div>
+<h1>AntV OSCP</h1>
 <div class="observablehq observablehq--block"><!--:aae03d5a:--></div>
 <div class="observablehq observablehq--block"><!--:91c66a94:--></div>
-<div class="observablehq observablehq--block"><!--:b2a3a693:--></div>
 <div class="grid grid-cols-4">
   <span class="card">
     <h2>社区贡献者</h2>
@@ -191,6 +191,6 @@ resize((width) => bar(selected, {width}))
 </div>
 </main>
 <footer id="observablehq-footer">
-<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2024-07-10T10:35:17">Jul 10, 2024</a>.</div>
+<div>Built with <a href="https://observablehq.com/" target="_blank" rel="noopener noreferrer">Observable</a> on <a title="2024-07-10T11:48:43">Jul 10, 2024</a>.</div>
 </footer>
 </div>
