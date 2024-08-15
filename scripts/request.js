@@ -58,12 +58,12 @@ async function getPRsOfRepo(owner = 'antvis', repo = 'G2') {
 
     // 合并到一起
     const pr = data
-      
       .map(d => ({
         id: d.id,
         login: _.get(d, 'user.login') || '',
-        mergedAt: d.merged_at,
+        merged_at: d.merged_at,
         owner,
+        avatar_url: _.get(d, 'user.avatar_url') || '',
         repo,
         author_association: d.author_association,
       }));
@@ -80,7 +80,7 @@ async function getPRsOfRepo(owner = 'antvis', repo = 'G2') {
   }
 
   const Robots = ['github-actions[bot]', 'dependabot-preview[bot]', 'dependabot[bot]'];
-  return PRs.filter(d => !!d.mergedAt && !Robots.includes(d.login));
+  return PRs.filter(d => !!d.merged_at && !Robots.includes(d.login));
 }
 
 /**
