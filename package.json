@@ -1,23 +1,43 @@
 {
-  "type": "module",
+  "name": "oscp-dashboard",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "clean": "rimraf docs/.observablehq/cache",
-    "build": "rimraf dist && observable build",
-    "dev": "observable preview",
-    "deploy": "observable deploy",
-    "observable": "observable"
+    "dev": "vite",
+    "build": "rm -rf dist && tsc && vite build",
+    "lint": "eslint src --ext ts,tsx",
+    "fix": "eslint src --ext ts,tsx --fix",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@observablehq/framework": "latest",
-    "d3-dsv": "^3.0.1",
-    "d3-time-format": "^4.1.0"
+    "@ant-design/icons": "^5.2.6",
+    "@antv/g-plugin-rough-canvas-renderer": "^2.0.11",
+    "@antv/g2": "^5.2.3",
+    "@octokit/core": "^6.1.2",
+    "ahooks": "^3.7.8",
+    "antd": "^5.10.1",
+    "d3-array": "^3.2.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "webfontloader": "^1.6.28",
+    "wired-elements-react": "^0.1.5"
   },
   "devDependencies": {
-    "octokit": "^4.0.2",
-    "rimraf": "^5.0.5"
+    "@types/node": "^20.8.6",
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.59.0",
+    "@typescript-eslint/parser": "^5.59.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.38.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.3.4",
+    "less": "^4.2.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vite-plugin-externals": "^0.6.2"
   },
-  "engines": {
-    "node": ">=18"
-  }
+  "repository": "git@github.com:antvis/oscp-dashboard.git"
 }
