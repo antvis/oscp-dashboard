@@ -94,41 +94,55 @@ export const Dashboard: React.FC = () => {
       <div className={styles.rank}>
         <Chart
           options={{
-            type: "interval",
+            type: "view",
             autoFit: true,
+            paddingRight: 64,
             height: 500,
-
             title: {
               title: "Top 10 Contributors",
               titleFontFamily: "Gaegu",
               titleFontSize: 24,
             },
             data: contributors,
-            encode: { x: "login", y: "contributing", color: "login" },
+            encode: { x: "login", y: "contributing" },
             coordinate: { transform: [{ type: "transpose" }] },
-            axis: {
-              x: {
-                labelFontFamily: "Gaegu",
-                title: false,
-              },
-              y: {
-                labelFontFamily: "Gaegu",
-                title: false,
-              },
-            },
-            scale: {
-              x: { padding: 0.3 },
-            },
-            labels: [
+            children: [
               {
-                text: "contributing",
-                textAlign: "right",
-                dx: -12,
-                fontFamily: "Gaegu",
-                fontWeight: "bold",
+                type: "interval",
+                encode: { color: "login" },
+                scale: {
+                  x: { padding: 0.3 },
+                },
+                axis: {
+                  x: {
+                    labelFontFamily: "Gaegu",
+                    title: false,
+                  },
+                  y: {
+                    labelFontFamily: "Gaegu",
+                    title: false,
+                    nice: true,
+                  },
+                },
+                labels: [
+                  {
+                    text: "contributing",
+                    position: "right",
+                    textAlign: "left",
+                    dx: 12,
+                    fontSize: 16,
+                    fontFamily: "Gaegu",
+                    fontWeight: "bold",
+                  },
+                ],
+                legend: false,
+              },
+              {
+                type: "image",
+                encode: { src: "avatar_url", size: 18 },
+                tooltip: false,
               },
             ],
-            legend: false,
           }}
           plugins={[new Plugin()]}
         />

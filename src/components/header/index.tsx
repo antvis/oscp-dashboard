@@ -12,7 +12,7 @@ export const Header: React.FC = () => {
         <Logo />
       </div>
       <div className={styles.btns}>
-        <a href="https://github.com/antvis/storytelling" target="_blank">
+        <a href="https://github.com/antvis/" target="_blank">
           <div className={`${styles.btn} ${styles.github}`} dangerouslySetInnerHTML={{ __html: GitHubSVG }} />
         </a>
          <a href="https://gw.alipayobjects.com/zos/antfincdn/ZKlx96dsfs/qrcode_for_gh_f52d8b6aa591_258.jpg" target="_blank">

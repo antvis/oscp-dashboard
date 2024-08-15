@@ -32,7 +32,8 @@ export function getTopContributors(repo, n = 10) {
   const result = Array.from(groups, ([login, prs]) => ({
     login,
     contributing: prs.length,
-  }));
+    avatar_url: prs?.[0]?.avatar_url,
+  })).filter((d) => d.contributing > 0);
 
   return result.sort((a, b) => b.contributing - a.contributing).slice(0, n);
 }
@@ -41,9 +42,9 @@ export function getContributingTrending(repo) {
   const filtered = filterRepo(PRS, repo);
 
   const start = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
-  const oneYearPRs = filtered.filter((v) => new Date(v.mergedAt) > start);
+  const oneYearPRs = filtered.filter((v) => new Date(v.merged_at) > start);
 
-  const groups = d3.group(oneYearPRs, (v) => getDate(v.mergedAt));
+  const groups = d3.group(oneYearPRs, (v) => getDate(v.merged_at));
 
   const result = Array.from(groups, ([date, prs]) => ({
     date,
