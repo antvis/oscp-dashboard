@@ -1,38 +1,64 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Plugin } from "@antv/g-plugin-rough-canvas-renderer";
-import { WiredButton, WiredCard } from "wired-elements-react";
+import {
+  WiredRadioGroup,
+  WiredRadio,
+  WiredCard,
+  WiredSpinner,
+} from "wired-elements-react";
 import WebFont from "webfontloader";
 import { Chart } from '../g2';
 import { getRateData, getTopContributors, getContributingTrending } from './helper';
 
 import styles from './index.module.less';
 
-
 export const Dashboard: React.FC = () => {
-  const [fontReady, setFontReady] = React.useState(false);
+  const [repo, setRepo] = useState('G2');
+  const [fontReady, setFontReady] = React.useState(false); 
+  const onChange = useCallback((e) => {
+    setRepo(e.target.innerText);
+  }, []);
 
-  const { contributor, pr, total } = getRateData();
-  const contributors = getTopContributors();
-  const { rate, compare } = getContributingTrending();
+  const { contributor, pr, total } = getRateData(repo);
+  const contributors = getTopContributors(repo);
+  const { rate, compare } = getContributingTrending(repo);
 
   useEffect(() => {
     WebFont.load({
       google: {
-        families: ['Gaegu'],
+        families: ["Gaegu"],
       },
       active: () => {
         setFontReady(true);
-      }
+      },
     });
   });
 
-  if (!fontReady) return;
+  if (!fontReady) {
+    return (
+      <div>
+        <WiredSpinner spinning />
+      </div>
+    );
+  }
 
   return (
     <div className={styles.dashboard}>
-      {/* <div className={styles.filter}>
-        <WiredButton>Query</WiredButton>
-      </div> */}
+      <div>
+        <h2>Hi, Welcome to AntV OSCP!</h2>
+      </div>
+      <div className={styles.filter}>
+        <span>Select Your Repo: </span>
+        <WiredRadioGroup selected={repo} onchange={onChange}>
+          <WiredRadio name="G2">G2</WiredRadio>
+          <WiredRadio name="S2">S2</WiredRadio>
+          <WiredRadio name="G6">G6</WiredRadio>
+          <WiredRadio name="X6">X6</WiredRadio>
+          <WiredRadio name="L7">L7</WiredRadio>
+          <WiredRadio name="F2">F2</WiredRadio>
+          <WiredRadio name="AVA">AVA</WiredRadio>
+        </WiredRadioGroup>
+      </div>
       <div className={styles.rate}>
         <div className={styles.contributors}>
           <WiredCard className={styles.card}>
@@ -75,6 +101,8 @@ export const Dashboard: React.FC = () => {
           options={{
             type: "interval",
             autoFit: true,
+            height: 500,
+
             title: {
               title: "Top 10 Contributors",
               titleFontFamily: "Gaegu",
@@ -115,6 +143,7 @@ export const Dashboard: React.FC = () => {
           options={{
             type: "view",
             autoFit: true,
+            height: 500,
             title: {
               title: "Contributing Trending in latest 1 Year",
               titleFontFamily: "Gaegu",

@@ -24,7 +24,7 @@ async function sleep(ms = 100) {
  * @param {*} owner 
  */
 function getGroupRepos(owner = 'antvis') {
-  return ['G2', 'S2', 'G6', 'X6', 'L7', 'AVA'];
+  return ['G2', 'S2', 'G6', 'X6', 'L7', 'AVA', 'F2'];
 }
 
 /**
