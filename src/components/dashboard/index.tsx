@@ -4,7 +4,6 @@ import {
   WiredRadioGroup,
   WiredRadio,
   WiredCard,
-  WiredSpinner,
 } from "wired-elements-react";
 import WebFont from "webfontloader";
 import { Chart } from '../g2';
@@ -35,11 +34,7 @@ export const Dashboard: React.FC = () => {
   });
 
   if (!fontReady) {
-    return (
-      <div>
-        <WiredSpinner spinning />
-      </div>
-    );
+    return null;
   }
 
   return (

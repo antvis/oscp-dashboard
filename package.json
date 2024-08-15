@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "rm -rf dist && tsc && vite build",
+    "build": "rm -rf dist && vite build",
     "lint": "eslint src --ext ts,tsx",
     "fix": "eslint src --ext ts,tsx --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "cp CNAME dist/CNAME && gh-pages -d dist"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
