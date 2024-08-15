@@ -23,7 +23,10 @@ export function getRateData(repo) {
 }
 
 export function getTopContributors(repo, n = 10) {
-  const filtered = filterRepo(PRS, repo);
+  const filtered = filterRepo(
+    PRS.filter((d) => d.author_association === "CONTRIBUTOR"),
+    repo
+  );
 
   const groups = d3.group(filtered, (v) => v.login);
   const result = Array.from(groups, ([login, prs]) => ({
