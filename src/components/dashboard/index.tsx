@@ -205,6 +205,10 @@ export const Dashboard: React.FC = () => {
                 },
                 style: { fillOpacity: 0.8 },
                 axis: {
+                  x: {
+                    titleFontFamily: "Gaegu",
+                    labelFontFamily: "Gaegu",
+                  },
                   y: {
                     position: "right",
                     title: "Contributing",
