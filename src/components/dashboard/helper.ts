@@ -28,12 +28,21 @@ export function getRateData(repos, timeRange) {
   const filtered = filterRepoAndTimeRange(PRS, repos, [getTimeRangeDate(timeRange), new Date()]);
 
   return {
-    contributor: d3.group(filtered, (v) => v.login).size,
+    // 贡献者数量
+    contributor: d3.group(
+      filtered.filter((d) => d.author_association === "CONTRIBUTOR"),
+      (v) => v.login
+    ).size,
+    // 贡献者的 PR
     pr: filtered.filter((d) => d.author_association === "CONTRIBUTOR").length,
+    // 总共的 PR 数量
     total: filtered.length,
   };
 }
 
+/**
+ * 贡献者榜单
+ */
 export function getTopContributors(repos, timeRange, n = 10) {
   const filtered = filterRepoAndTimeRange(
     PRS.filter((d) => d.author_association === "CONTRIBUTOR"),
@@ -51,6 +60,9 @@ export function getTopContributors(repos, timeRange, n = 10) {
   return result.sort((a, b) => b.contributing - a.contributing).slice(0, n);
 }
 
+/**
+ * 贡献者趋势，最近一年，按月显示
+ */
 export function getContributingTrending(repos) {
   // all
   const oneYearPRs = filterRepoAndTimeRange(PRS, repos, [
