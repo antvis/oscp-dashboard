@@ -4,6 +4,7 @@ import {
   WiredRadioGroup,
   WiredRadio,
   WiredCard,
+  WiredCheckbox,
 } from "wired-elements-react";
 import WebFont from "webfontloader";
 import { Chart } from '../g2';
@@ -12,15 +13,29 @@ import { getRateData, getTopContributors, getContributingTrending } from './help
 import styles from './index.module.less';
 
 export const Dashboard: React.FC = () => {
-  const [repo, setRepo] = useState('G2');
+  const [selectedRepos, setSelectedRepos] = useState({ G2: true });
+  const [timeRange, setTimeRange] = useState("latest1m");
   const [fontReady, setFontReady] = React.useState(false); 
-  const onChange = useCallback((e) => {
-    setRepo(e.target.innerText);
+
+  const onRepoChange = (repo) => (e) => {
+    const { checked } = e.target;
+
+    const repos = {
+      ...selectedRepos,
+      [repo]: checked,
+    };
+    setSelectedRepos(repos);
+  };
+
+  const onTimeChange = useCallback((e) => {
+    setTimeRange(e.target.name);
   }, []);
 
-  const { contributor, pr, total } = getRateData(repo);
-  const contributors = getTopContributors(repo);
-  const { rate, compare } = getContributingTrending(repo);
+  const repos = Object.entries(selectedRepos).filter(([, checked]) => checked).map(([repo]) => repo);
+
+  const { contributor, pr, total } = getRateData(repos, timeRange);
+  const contributors = getTopContributors(repos, timeRange);
+  const { rate, compare } = getContributingTrending(repos);
 
   useEffect(() => {
     WebFont.load({
@@ -44,14 +59,20 @@ export const Dashboard: React.FC = () => {
       </div>
       <div className={styles.filter}>
         <span>Select Your Repo: </span>
-        <WiredRadioGroup selected={repo} onchange={onChange}>
-          <WiredRadio name="G2">G2</WiredRadio>
-          <WiredRadio name="S2">S2</WiredRadio>
-          <WiredRadio name="G6">G6</WiredRadio>
-          <WiredRadio name="X6">X6</WiredRadio>
-          <WiredRadio name="L7">L7</WiredRadio>
-          <WiredRadio name="F2">F2</WiredRadio>
-          <WiredRadio name="AVA">AVA</WiredRadio>
+        {["G2", "S2", "G6", "X6", "L7", "F2", "AVA"].map((r) => (
+          <WiredCheckbox
+            key={r}
+            checked={selectedRepos[r]}
+            onChange={onRepoChange(r)}
+          >
+            {r}
+          </WiredCheckbox>
+        ))}
+        <span style={{ marginLeft: 16 }}>Select Time Range: </span>
+        <WiredRadioGroup selected={timeRange} onchange={onTimeChange}>
+          <WiredRadio name="latest1m">Latest 1 Month</WiredRadio>
+          <WiredRadio name="latest1y">Latest 1 Year</WiredRadio>
+          <WiredRadio name="all">All</WiredRadio>
         </WiredRadioGroup>
       </div>
       <div className={styles.rate}>

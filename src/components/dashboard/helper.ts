@@ -8,12 +8,24 @@ function getDate(date: string) {
   return `${year}-${month > 9 ? month : `0${month}`}`;
 }
 
-function filterRepo(PRS, repo) {
-  return PRS.filter((d) => d.repo === repo);
+function filterRepoAndTimeRange(PRS, repos, timeRange) {
+  const [start, end] = timeRange;
+  return PRS.filter((d) => repos.includes(d.repo) && new Date(d.merged_at) > start && new Date(d.merged_at) < end);
 }
 
-export function getRateData(repo) {
-  const filtered = filterRepo(PRS, repo);
+function getTimeRangeDate(timeRange) {
+  switch (timeRange) {
+    case 'latest1m':
+      return new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    case 'latest1y':
+      return new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
+    default:
+      return new Date(0); // all
+  }
+}
+
+export function getRateData(repos, timeRange) {
+  const filtered = filterRepoAndTimeRange(PRS, repos, [getTimeRangeDate(timeRange), new Date()]);
 
   return {
     contributor: d3.group(filtered, (v) => v.login).size,
@@ -22,10 +34,11 @@ export function getRateData(repo) {
   };
 }
 
-export function getTopContributors(repo, n = 10) {
-  const filtered = filterRepo(
+export function getTopContributors(repos, timeRange, n = 10) {
+  const filtered = filterRepoAndTimeRange(
     PRS.filter((d) => d.author_association === "CONTRIBUTOR"),
-    repo
+    repos,
+    [getTimeRangeDate(timeRange), new Date()]
   );
 
   const groups = d3.group(filtered, (v) => v.login);
@@ -38,11 +51,15 @@ export function getTopContributors(repo, n = 10) {
   return result.sort((a, b) => b.contributing - a.contributing).slice(0, n);
 }
 
-export function getContributingTrending(repo) {
-  const filtered = filterRepo(PRS, repo);
+export function getContributingTrending(repos) {
+  // all
+  const oneYearPRs = filterRepoAndTimeRange(PRS, repos, [
+    new Date(Date.now() - 365 * 24 * 60 * 60 * 1000), // 近一年
+    new Date(),
+  ]);
 
-  const start = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
-  const oneYearPRs = filtered.filter((v) => new Date(v.merged_at) > start);
+  // const start = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
+  // const oneYearPRs = filtered.filter((v) => new Date(v.merged_at) > start);
 
   const groups = d3.group(oneYearPRs, (v) => getDate(v.merged_at));
 
