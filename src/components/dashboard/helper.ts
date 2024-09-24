@@ -10,7 +10,14 @@ function getDate(date: string) {
 
 function filterRepoAndTimeRange(PRS, repos, timeRange) {
   const [start, end] = timeRange;
-  return PRS.filter((d) => repos.includes(d.repo) && new Date(d.merged_at) > start && new Date(d.merged_at) < end);
+  const isAll = repos.includes("All");
+  const filterRepor = (repo) => isAll || repos.includes(repo);
+  return PRS.filter(
+    (d) =>
+      filterRepor(d.repo) &&
+      new Date(d.merged_at) > start &&
+      new Date(d.merged_at) < end
+  );
 }
 
 function getTimeRangeDate(timeRange) {

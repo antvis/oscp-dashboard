@@ -13,18 +13,24 @@ import { getRateData, getTopContributors, getContributingTrending } from './help
 import styles from './index.module.less';
 
 export const Dashboard: React.FC = () => {
-  const [selectedRepos, setSelectedRepos] = useState({ G2: true });
+  const [selectedRepos, setSelectedRepos] = useState({ All: true } as Record<string, boolean>);
   const [timeRange, setTimeRange] = useState("latest1m");
   const [fontReady, setFontReady] = React.useState(false); 
 
   const onRepoChange = (repo) => (e) => {
     const { checked } = e.target;
 
-    const repos = {
-      ...selectedRepos,
-      [repo]: checked,
-    };
-    setSelectedRepos(repos);
+    if (repo === "All") {
+      setSelectedRepos({ All: true });
+    } else {
+      const repos = {
+        ...selectedRepos,
+        [repo]: checked,
+      };
+      // @ts-ignore
+      delete repos.All;
+      setSelectedRepos(repos);
+    }
   };
 
   const onTimeChange = useCallback((e) => {
@@ -59,7 +65,7 @@ export const Dashboard: React.FC = () => {
       </div>
       <div className={styles.filter}>
         <span>Select Your Repo: </span>
-        {["G2", "S2", "G6", "X6", "L7", "F2", "AVA"].map((r) => (
+        {["All", "G2", "S2", "G6", "X6", "L7", "F2", "AVA"].map((r) => (
           <WiredCheckbox
             key={r}
             checked={selectedRepos[r]}
