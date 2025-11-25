@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 /**
  * 获得最近一年所有的 PR 明细信息，并存储为 JSON 数据。
  * 1. 通过 GitHub API antvis 组织下所有的 repo；
@@ -8,8 +10,8 @@
 import { Octokit } from '@octokit/core';
 import _ from 'lodash';
 import * as fs from 'fs';
-import { TOKEN } from './token';
 
+const TOKEN = process.env.TOKEN;
 
 /**
  * 延时，防止请求太快，接口报错
