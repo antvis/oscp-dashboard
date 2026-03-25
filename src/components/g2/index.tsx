@@ -25,7 +25,7 @@ export type ChartProps = {
   plugins?: G2ChartOptions['plugins'];
   style?: CSSProperties;
   onInit?: () => void;
-  onIntervalClick?: (data: any) => void;
+  onIntervalClick?: (data) => void;
 };
 
 export const Chart = forwardRef<ChartRef, ChartProps>((props, ref) => {

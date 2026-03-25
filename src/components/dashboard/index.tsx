@@ -37,6 +37,10 @@ export const Dashboard: React.FC = () => {
     setTimeRange(e.target.name);
   }, []);
 
+  const onIntervalClick = (data) => {
+    data && window.open(data.github_url, "_blank");
+  }
+
   const repos = Object.entries(selectedRepos).filter(([, checked]) => checked).map(([repo]) => repo);
 
   const { contributor, pr, total } = getRateData(repos, timeRange);
@@ -173,7 +177,7 @@ export const Dashboard: React.FC = () => {
             ],
           }}
           plugins={[new Plugin()]}
-          onIntervalClick={(d) => window.open(d.github_url, "_blank")}
+          onIntervalClick={onIntervalClick}
         />
       </div>
       <div className={styles.trending}>
