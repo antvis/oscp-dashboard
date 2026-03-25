@@ -45,7 +45,6 @@ export const Dashboard: React.FC = () => {
 
   const { contributor, pr, total } = getRateData(repos, timeRange);
   const contributors = getTopContributors(repos, timeRange);
-  console.error("contributors: ", contributors)
   const { rate, compare } = getContributingTrending(repos);
 
   useEffect(() => {
