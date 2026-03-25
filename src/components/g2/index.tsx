@@ -25,10 +25,11 @@ export type ChartProps = {
   plugins?: G2ChartOptions['plugins'];
   style?: CSSProperties;
   onInit?: () => void;
+  onIntervalClick?: (data: any) => void;
 };
 
 export const Chart = forwardRef<ChartRef, ChartProps>((props, ref) => {
-  const { options, style, onInit, renderer, plugins } = props;
+  const { options, style, onInit, renderer, plugins, onIntervalClick } = props;
   const containerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<G2Chart>();
   const [init, setInit] = useState(false);
@@ -39,6 +40,10 @@ export const Chart = forwardRef<ChartRef, ChartProps>((props, ref) => {
       container: containerRef.current,
       renderer,
       plugins,
+    });
+    chartRef.current.on('interval:click', (e) => {
+      console.error("interval click: ", e.data.data);
+      onIntervalClick(e.data.data);
     });
     setInit(true);
     return () => {

@@ -41,6 +41,7 @@ export const Dashboard: React.FC = () => {
 
   const { contributor, pr, total } = getRateData(repos, timeRange);
   const contributors = getTopContributors(repos, timeRange);
+  console.error("contributors: ", contributors)
   const { rate, compare } = getContributingTrending(repos);
 
   useEffect(() => {
@@ -172,6 +173,7 @@ export const Dashboard: React.FC = () => {
             ],
           }}
           plugins={[new Plugin()]}
+          onIntervalClick={(d) => window.open(d.github_url, "_blank")}
         />
       </div>
       <div className={styles.trending}>

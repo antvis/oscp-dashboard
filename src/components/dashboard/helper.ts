@@ -51,6 +51,7 @@ export function getRateData(repos, timeRange) {
  * 贡献者榜单
  */
 export function getTopContributors(repos, timeRange, n = 10) {
+  console.error("repos, timeRange: ", repos, timeRange)
   const filtered = filterRepoAndTimeRange(
     PRS.filter((d) => d.author_association === "CONTRIBUTOR"),
     repos,
@@ -60,6 +61,7 @@ export function getTopContributors(repos, timeRange, n = 10) {
   const groups = d3.group(filtered, (v) => v.login);
   const result = Array.from(groups, ([login, prs]) => ({
     login,
+    github_url: `https://github.com/${login}`,
     contributing: prs.length,
     avatar_url: prs?.[0]?.avatar_url,
   })).filter((d) => d.contributing > 0);
