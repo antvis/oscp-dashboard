@@ -42,7 +42,6 @@ export const Chart = forwardRef<ChartRef, ChartProps>((props, ref) => {
       plugins,
     });
     chartRef.current.on('interval:click', (e) => {
-      console.error("interval click: ", e.data.data);
       onIntervalClick(e.data.data);
     });
     setInit(true);
