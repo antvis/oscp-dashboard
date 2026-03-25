@@ -51,7 +51,6 @@ export function getRateData(repos, timeRange) {
  * 贡献者榜单
  */
 export function getTopContributors(repos, timeRange, n = 10) {
-  console.error("repos, timeRange: ", repos, timeRange)
   const filtered = filterRepoAndTimeRange(
     PRS.filter((d) => d.author_association === "CONTRIBUTOR"),
     repos,
