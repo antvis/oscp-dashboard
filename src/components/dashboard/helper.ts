@@ -60,7 +60,6 @@ export function getTopContributors(repos, timeRange, n = 10) {
   const groups = d3.group(filtered, (v) => v.login);
   const result = Array.from(groups, ([login, prs]) => ({
     login,
-    github_url: `https://github.com/${login}`,
     contributing: prs.length,
     avatar_url: prs?.[0]?.avatar_url,
   })).filter((d) => d.contributing > 0);

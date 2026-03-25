@@ -38,7 +38,7 @@ export const Dashboard: React.FC = () => {
   }, []);
 
   const onIntervalClick = (data) => {
-    data && window.open(data.github_url, "_blank");
+    data && window.open(`https://github.com/${data.login}`, "_blank");
   }
 
   const repos = Object.entries(selectedRepos).filter(([, checked]) => checked).map(([repo]) => repo);
